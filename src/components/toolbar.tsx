@@ -2,9 +2,14 @@
 
 import { signOut } from "next-auth/react"
 
-export default function ToolbarComponent() {
+interface IToolbarProps {
+    name: string
+}
+
+export default function ToolbarComponent(props: IToolbarProps) {
   return (
     <>
+      <p>Welcome, {props.name}!</p>
       <button onClick={() => signOut()}>Sign Out</button>
     </>
   )

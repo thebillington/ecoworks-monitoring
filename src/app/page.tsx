@@ -9,7 +9,7 @@ export default async function Component() {
   if (session) {
     return (
       <>
-        <ToolbarComponent />
+        <ToolbarComponent name={session.user.name ?? '{name}'} />
       </>
     )
   } else {
