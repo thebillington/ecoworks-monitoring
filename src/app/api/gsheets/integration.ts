@@ -1,4 +1,5 @@
-import { google } from "googleapis";
+import User from "@/app/models/user"
+import { google } from "googleapis"
 
 async function getGoogleAuthClient() {
   return await google.auth.getClient({
@@ -15,15 +16,27 @@ async function getGoogleAuthClient() {
   })
 }
 
-export async function getGoogleSheetsData(range: string) {
+export async function getUsers() {
   const auth = await getGoogleAuthClient()
 
   const sheets = google.sheets({ version: "v4", auth })
 
   const data = await sheets.spreadsheets.values.get({
-    spreadsheetId: '1x1U5t8sft99eYVaok1OT1cMt4AuW_fbmrmARM300MN8',
-    range: range,
+    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    range: 'users',
   })
 
-  return data.data.values
+  let users: Array<User> = [];
+
+  const columnHeadings = data.data.values?.splice(0,1)[0]
+  for (let row of data.data.values ?? []) {
+    users.push(
+      new User(
+        row[columnHeadings?.indexOf('email') ?? 0],
+        row[columnHeadings?.indexOf('name') ?? 1],
+      )
+    )
+  }
+
+  return users
 }
