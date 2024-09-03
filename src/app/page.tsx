@@ -1,21 +1,17 @@
-'use client'
+import { getServerSession } from 'next-auth/next'
 
-import { useSession, signIn, signOut } from "next-auth/react"
+import LoginComponent from '@/components/login'
+import { authOptions } from "@/app/auth"
 
-export default function Component() {
-  const { data: session } = useSession()
+export default async function Component() {
+  const session = await getServerSession(authOptions)
   if (session) {
     return (
       <>
         Signed in as {session.user.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
       </>
     )
+  } else {
+    return <LoginComponent />
   }
-  return (
-    <>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
-    </>
-  )
 }
