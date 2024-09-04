@@ -1,5 +1,6 @@
 import User from "@/app/models/user"
 import { google } from "googleapis"
+import { NextResponse } from "next/server"
 
 async function getGoogleAuthClient() {
   return await google.auth.getClient({
@@ -12,7 +13,7 @@ async function getGoogleAuthClient() {
       token_url: "https://oauth2.googleapis.com/token",
       universe_domain: "googleapis.com",
     },
-    scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   })
 }
 
@@ -39,4 +40,39 @@ export async function getUsers() {
   }
 
   return users
+}
+
+export async function createUser(
+  email: string,
+  name: string,
+  type: string
+) {
+
+  const users = await getUsers()
+  for (let user of users) {
+    if (user.email == email) {
+      return NextResponse.json(
+        { message: "Email already registered" },
+        { status: 409 }
+      )
+    }
+  }
+
+  const auth = await getGoogleAuthClient()
+  const sheets = google.sheets({ version: "v4", auth })
+
+  const data = await sheets.spreadsheets.values.append({
+    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    valueInputOption: 'USER_ENTERED',
+    insertDataOption: 'INSERT_ROWS',
+    range: 'users',
+    requestBody: {
+      values: [ [ email, name, type, ] ],
+    },
+  })
+
+  return NextResponse.json(
+    { message: "Registration successful" },
+    { status: 200 }
+  )
 }
