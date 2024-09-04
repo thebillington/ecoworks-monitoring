@@ -1,11 +1,11 @@
 'use server'
 
-import { createUser } from "../api/gsheets/integration";
+import { createUser } from "../api/gsheets/integration"
 
-export default async function submitRegistrationForm(data: FormData) {
+export default async function submitRegistrationForm(prevState: any, formData: FormData) {
     return await createUser(
-        data.get('email') as string,
-        data.get('name') as string,
-        data.get('user-type') as string
-    );
+        formData.get('email') as string,
+        formData.get('name') as string,
+        formData.get('user-type') as string
+    )
 }

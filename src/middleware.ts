@@ -1,4 +1,4 @@
-import { withAuth } from 'next-auth/middleware';
+import { withAuth } from 'next-auth/middleware'
 
 export default withAuth({
     callbacks: {
@@ -7,4 +7,4 @@ export default withAuth({
             req.nextUrl.pathname === '/register' ||
             !!token,
     }
-});
+})

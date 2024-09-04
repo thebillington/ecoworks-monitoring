@@ -1,13 +1,15 @@
 'use client'
 
 import submitRegistrationForm from "@/app/register/handler"
+import { useFormState } from "react-dom"
+
+const initialState = {
+    message: ''
+}
 
 export default function RegistrationFormComponent() {
 
-    async function submit(data: FormData) {
-        const response = await submitRegistrationForm(data);
-        console.log(response);
-    }
+    const [state, formAction] = useFormState(submitRegistrationForm, initialState)
 
     return (
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -16,7 +18,7 @@ export default function RegistrationFormComponent() {
                     <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                         Register to use the Ecoworks space
                     </h1>
-                    <form className="space-y-4 md:space-y-6" action={submit}>
+                    <form className="space-y-4 md:space-y-6" action={formAction}>
                         <div>
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                             <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required />
@@ -33,6 +35,9 @@ export default function RegistrationFormComponent() {
                                 <option>Staff</option>
                                 <option>Trustee</option>
                             </select>
+                        </div>
+                        <div className="w-full text-center">
+                            <p aria-live="polite">{state?.message}</p>
                         </div>
                         <div className="w-full text-center">
                             <button type="submit" className="w-5/6 my-8 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Register</button>

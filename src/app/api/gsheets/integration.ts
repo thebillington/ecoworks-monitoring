@@ -14,32 +14,32 @@ async function getGoogleAuthClient() {
       universe_domain: "googleapis.com",
     },
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-  });
+  })
 }
 
 export async function getUsers() {
-  const auth = await getGoogleAuthClient();
+  const auth = await getGoogleAuthClient()
 
-  const sheets = google.sheets({ version: "v4", auth });
+  const sheets = google.sheets({ version: "v4", auth })
 
   const data = await sheets.spreadsheets.values.get({
     spreadsheetId: process.env.USERS_SPREADSHEET_ID,
     range: 'users',
-  });
+  })
 
-  let users: Array<User> = [];
+  let users: Array<User> = []
 
-  const columnHeadings = data.data.values?.splice(0,1)[0];
+  const columnHeadings = data.data.values?.splice(0,1)[0]
   for (let row of data.data.values ?? []) {
     users.push(
       new User(
         row[columnHeadings?.indexOf('email') ?? 0],
         row[columnHeadings?.indexOf('name') ?? 1],
       )
-    );
+    )
   }
 
-  return users;
+  return users
 }
 
 export async function createUser(
@@ -51,15 +51,14 @@ export async function createUser(
   const users = await getUsers()
   for (let user of users) {
     if (user.email == email) {
-      return JSON.stringify({
-        message: "Email already registered" ,
-        status: 409
-      });
+      return {
+        message: "Email already registered" 
+      }
     }
   }
 
-  const auth = await getGoogleAuthClient();
-  const sheets = google.sheets({ version: "v4", auth });
+  const auth = await getGoogleAuthClient()
+  const sheets = google.sheets({ version: "v4", auth })
 
   const data = await sheets.spreadsheets.values.append({
     spreadsheetId: process.env.USERS_SPREADSHEET_ID,
@@ -69,10 +68,9 @@ export async function createUser(
     requestBody: {
       values: [ [ email, name, type, ] ],
     },
-  });
+  })
 
-  return JSON.stringify({
-    message: "Registration successful",
-    status: 200 
-  });
+  return {
+    message: "Registration successful"
+  }
 }
