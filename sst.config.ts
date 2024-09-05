@@ -8,6 +8,7 @@ export default $config({
       providers: {
         aws: {
           region: "eu-west-2",
+          profile: "aws-personal"
         }
       }
     };
