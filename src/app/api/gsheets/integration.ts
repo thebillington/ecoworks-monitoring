@@ -27,7 +27,7 @@ export async function getUsers() {
     range: 'users',
   })
 
-  let users: Array<User> = [];
+  let users: Array<User> = []
 
   const columnHeadings = data.data.values?.splice(0,1)[0]
   for (let row of data.data.values ?? []) {
@@ -51,10 +51,9 @@ export async function createUser(
   const users = await getUsers()
   for (let user of users) {
     if (user.email == email) {
-      return NextResponse.json(
-        { message: "Email already registered" },
-        { status: 409 }
-      )
+      return {
+        message: "Email already registered" 
+      }
     }
   }
 
@@ -71,8 +70,7 @@ export async function createUser(
     },
   })
 
-  return NextResponse.json(
-    { message: "Registration successful" },
-    { status: 200 }
-  )
+  return {
+    message: "Registration successful"
+  }
 }
