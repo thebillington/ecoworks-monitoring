@@ -3,10 +3,10 @@ import { getServerSession } from 'next-auth/next'
 import LoginComponent from '@/components/login'
 import { authOptions } from "@/app/auth"
 import ToolbarComponent from '@/components/toolbar'
-import { getProjects, getUsers } from './api/gsheets/integration'
+import { getProjects } from './api/gsheets/integration'
 import ProjectSelectorComponent from '@/components/dashboard/project-selector'
 
-export default async function Component() {
+export default async function DashboardPage() {
   const session = await getServerSession(authOptions)
   const projects = await getProjects()
 

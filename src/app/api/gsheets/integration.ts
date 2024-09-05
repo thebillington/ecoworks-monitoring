@@ -17,12 +17,8 @@ async function getGoogleAuthClient() {
   })
 }
 
-export interface ProjectData {
-  name: string
-  slug: string
-}
 
-export async function getProjects(): Promise<Array<ProjectData>> {
+export async function getProjects(): Promise<Array<string>> {
   const auth = await getGoogleAuthClient()
 
   const sheets = google.sheets({ version: "v4", auth })
@@ -31,13 +27,12 @@ export async function getProjects(): Promise<Array<ProjectData>> {
     spreadsheetId: process.env.USERS_SPREADSHEET_ID
   })
 
-  const projects: Array<ProjectData> = []
+  const projects: Array<string> = []
   const workbooks = response.data['sheets']?.map(sheet => sheet.properties?.title ?? undefined) ?? []
   for (let workbookName of workbooks) {
-    if (workbookName?.indexOf('project') != -1) projects.push({
-      name: titleCase(workbookName?.replace('project_', '').replaceAll('-', ' ') ?? 'project_name_error'),
-      slug: workbookName?.replace('project_', '') ?? ''
-    })
+    if (workbookName?.indexOf('project') != -1) projects.push(
+      workbookName?.replace('project_', '') ?? ''
+    )
   }
   
   return projects

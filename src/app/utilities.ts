@@ -5,3 +5,7 @@ export function titleCase(str: string): string {
     }
     return splitStr.join(' ')
  }
+
+ export function unslug(slug: string) {
+    return titleCase(slug.replaceAll('-', ' '))
+ }
