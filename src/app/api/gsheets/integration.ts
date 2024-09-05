@@ -1,6 +1,6 @@
 import User from "@/app/models/user"
+import { titleCase } from "@/app/utilities"
 import { google } from "googleapis"
-import { NextResponse } from "next/server"
 
 async function getGoogleAuthClient() {
   return await google.auth.getClient({
@@ -17,16 +17,30 @@ async function getGoogleAuthClient() {
   })
 }
 
-export async function getWorkbooks() {
+export interface ProjectData {
+  name: string
+  slug: string
+}
+
+export async function getProjects(): Promise<Array<ProjectData>> {
   const auth = await getGoogleAuthClient()
 
   const sheets = google.sheets({ version: "v4", auth })
 
-  const data = await sheets.spreadsheets.get({
+  const response = await sheets.spreadsheets.get({
     spreadsheetId: process.env.USERS_SPREADSHEET_ID
   })
+
+  const projects: Array<ProjectData> = []
+  const workbooks = response.data['sheets']?.map(sheet => sheet.properties?.title ?? undefined) ?? []
+  for (let workbookName of workbooks) {
+    if (workbookName?.indexOf('project') != -1) projects.push({
+      name: titleCase(workbookName?.replace('project_', '').replaceAll('-', ' ') ?? 'project_name_error'),
+      slug: workbookName?.replace('project_', '') ?? ''
+    })
+  }
   
-  console.log(data)
+  return projects
 }
 
 export async function getUsers(): Promise<Array<User>> {
@@ -34,15 +48,15 @@ export async function getUsers(): Promise<Array<User>> {
 
   const sheets = google.sheets({ version: "v4", auth })
 
-  const data = await sheets.spreadsheets.values.get({
+  const response = await sheets.spreadsheets.values.get({
     spreadsheetId: process.env.USERS_SPREADSHEET_ID,
     range: 'users',
   })
 
   let users: Array<User> = []
 
-  const columnHeadings = data.data.values?.splice(0,1)[0]
-  for (let row of data.data.values ?? []) {
+  const columnHeadings = response.data.values?.splice(0,1)[0]
+  for (let row of response.data.values ?? []) {
     users.push(
       new User(
         row[columnHeadings?.indexOf('email') ?? 0],
