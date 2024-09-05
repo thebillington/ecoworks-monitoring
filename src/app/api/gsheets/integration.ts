@@ -17,7 +17,19 @@ async function getGoogleAuthClient() {
   })
 }
 
-export async function getUsers() {
+export async function getWorkbooks() {
+  const auth = await getGoogleAuthClient()
+
+  const sheets = google.sheets({ version: "v4", auth })
+
+  const data = await sheets.spreadsheets.get({
+    spreadsheetId: process.env.USERS_SPREADSHEET_ID
+  })
+  
+  console.log(data)
+}
+
+export async function getUsers(): Promise<Array<User>> {
   const auth = await getGoogleAuthClient()
 
   const sheets = google.sheets({ version: "v4", auth })
@@ -46,13 +58,14 @@ export async function createUser(
   email: string,
   name: string,
   type: string
-) {
+): Promise<IRegistrationFormResponse>  {
 
   const users = await getUsers()
   for (let user of users) {
     if (user.email == email) {
       return {
-        message: "Email already registered" 
+        message: "Email already registered",
+        colour: "text-red-300"
       }
     }
   }
@@ -71,6 +84,7 @@ export async function createUser(
   })
 
   return {
-    message: "Registration successful"
+    message: "Registration successful",
+    colour: "text-green-300"
   }
 }
