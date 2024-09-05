@@ -5,6 +5,7 @@ export default $config({
     return {
       name: "ecoworks-monitoring",
       home: "aws",
+      removal: "remove",
       providers: {
         aws: {
           region: "eu-west-2",
@@ -14,6 +15,6 @@ export default $config({
     };
   },
   async run() {
-    new sst.aws.Nextjs("Ecoworks Monitoring");
+    new sst.aws.Nextjs("EcoworksMonitoring");
   },
 });
