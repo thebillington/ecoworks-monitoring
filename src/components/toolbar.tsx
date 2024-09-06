@@ -8,9 +8,9 @@ interface IToolbarProps {
 
 export default function ToolbarComponent(props: IToolbarProps) {
   return (
-    <div className="w-full bg-gray-500 p-2">
+    <div className="w-full px-2">
       Welcome, {props.name}!
-      <button className="float-right" onClick={() => signOut()}>Sign Out</button>
+      <button className="float-right" onClick={() => signOut({ callbackUrl: '/', redirect:true })}>Sign Out</button>
     </div>
   )
 }
