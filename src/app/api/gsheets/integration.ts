@@ -38,6 +38,28 @@ export async function getProjects(): Promise<Array<string>> {
   return projects
 }
 
+export async function attendanceSheetExistsFor(projectSlug: string, date: string): Promise<boolean> {
+  const auth = await getGoogleAuthClient()
+
+  const sheets = google.sheets({ version: "v4", auth })
+
+  const response = await sheets.spreadsheets.values.get({
+    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    range: `project_${projectSlug}`,
+  })
+
+  const columnHeadings = response.data.values?.splice(0,1)[0]
+  for (let row of response.data.values ?? []) {
+    if (row[columnHeadings?.indexOf('date') ?? 0] == date) return true
+  }
+
+  return false
+}
+
+export async function getAttendanceSheet(projectSlug: string, date: Date) {
+
+}
+
 export async function getUsers(): Promise<Array<User>> {
   const auth = await getGoogleAuthClient()
 
