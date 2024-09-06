@@ -1,6 +1,6 @@
 import User from "@/app/models/user"
+import { titleCase } from "@/app/utilities"
 import { google } from "googleapis"
-import { NextResponse } from "next/server"
 
 async function getGoogleAuthClient() {
   return await google.auth.getClient({
@@ -17,20 +17,63 @@ async function getGoogleAuthClient() {
   })
 }
 
-export async function getUsers() {
+
+export async function getProjects(): Promise<Array<string>> {
   const auth = await getGoogleAuthClient()
 
   const sheets = google.sheets({ version: "v4", auth })
 
-  const data = await sheets.spreadsheets.values.get({
+  const response = await sheets.spreadsheets.get({
+    spreadsheetId: process.env.USERS_SPREADSHEET_ID
+  })
+
+  const projects: Array<string> = []
+  const workbooks = response.data['sheets']?.map(sheet => sheet.properties?.title ?? undefined) ?? []
+  for (let workbookName of workbooks) {
+    if (workbookName?.indexOf('project') != -1) projects.push(
+      workbookName?.replace('project_', '') ?? ''
+    )
+  }
+  
+  return projects
+}
+
+export async function attendanceSheetExistsFor(projectSlug: string, date: string): Promise<boolean> {
+  const auth = await getGoogleAuthClient()
+
+  const sheets = google.sheets({ version: "v4", auth })
+
+  const response = await sheets.spreadsheets.values.get({
+    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    range: `project_${projectSlug}`,
+  })
+
+  const columnHeadings = response.data.values?.splice(0,1)[0]
+  for (let row of response.data.values ?? []) {
+    if (row[columnHeadings?.indexOf('date') ?? 0] == date) return true
+  }
+
+  return false
+}
+
+export async function getAttendanceSheet(projectSlug: string, date: Date) {
+
+}
+
+export async function getUsers(): Promise<Array<User>> {
+  const auth = await getGoogleAuthClient()
+
+  const sheets = google.sheets({ version: "v4", auth })
+
+  const response = await sheets.spreadsheets.values.get({
     spreadsheetId: process.env.USERS_SPREADSHEET_ID,
     range: 'users',
   })
 
   let users: Array<User> = []
 
-  const columnHeadings = data.data.values?.splice(0,1)[0]
-  for (let row of data.data.values ?? []) {
+  const columnHeadings = response.data.values?.splice(0,1)[0]
+  for (let row of response.data.values ?? []) {
     users.push(
       new User(
         row[columnHeadings?.indexOf('email') ?? 0],
@@ -46,13 +89,14 @@ export async function createUser(
   email: string,
   name: string,
   type: string
-) {
+): Promise<IRegistrationFormResponse>  {
 
   const users = await getUsers()
   for (let user of users) {
     if (user.email == email) {
       return {
-        message: "Email already registered" 
+        message: "Email already registered",
+        colour: "text-red-300"
       }
     }
   }
@@ -71,6 +115,7 @@ export async function createUser(
   })
 
   return {
-    message: "Registration successful"
+    message: "Registration successful",
+    colour: "text-green-300"
   }
 }
