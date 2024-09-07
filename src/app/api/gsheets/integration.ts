@@ -84,6 +84,29 @@ export async function getUsers(): Promise<Array<User>> {
   return users
 }
 
+export async function getPreviousAttendeeEmails(projectSlug: string): Promise<Array<string>> {
+  const auth = await getGoogleAuthClient()
+
+  const sheets = google.sheets({ version: "v4", auth })
+
+  const response = await sheets.spreadsheets.values.get({
+    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    range: `project_${projectSlug}`,
+  })
+
+  let attendees: Array<string> = []
+
+  if (!response.data.values) return []
+
+  const columnHeadings = response.data.values.splice(0,1)[0]
+  const finalEntry = response.data.values[response.data.values.length - 1]
+  for (let i = columnHeadings.indexOf('attendees'); i < finalEntry.length; i++) {
+    attendees.push(finalEntry[i])
+  }
+
+  return attendees
+}
+
 export async function createUser(
   email: string,
   name: string,
