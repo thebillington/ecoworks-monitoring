@@ -1,5 +1,4 @@
 import User from "@/app/models/user"
-import { titleCase } from "@/app/utilities"
 import { google } from "googleapis"
 
 async function getGoogleAuthClient() {
@@ -7,7 +6,11 @@ async function getGoogleAuthClient() {
     projectId: process.env.GSHEETS_PROJECT_ID,
     credentials: {
       type: "service_account",
+<<<<<<< HEAD
       private_key: process.env.GSHEETS_PRIVATE_KEY ?? "".split(String.raw`\n`).join('\n'),
+=======
+      private_key: process.env.GSHEETS_PRIVATE_KEY?.split(String.raw`\n`).join('\n'),
+>>>>>>> main
       client_email: process.env.GSHEETS_SERVICE_EMAIL,
       client_id: process.env.GSHEETS_SERVICE_EMAIL,
       token_url: "https://oauth2.googleapis.com/token",
