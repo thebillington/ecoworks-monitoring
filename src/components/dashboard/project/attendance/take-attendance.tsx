@@ -22,8 +22,8 @@ export default function TakeAttendanceComponent(
     }
 
     return (
-        <div className="relative overflow-x-auto">
-            <table className="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <div className="h-full relative overflow-y-auto no-scrollbar">
+            <table className="h-full w-full table-fixed text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr key="headings">
                         <th scope="col" className="px-6 py-3">Name</th>
