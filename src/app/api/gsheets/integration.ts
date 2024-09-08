@@ -162,9 +162,15 @@ async function countUserTypes(
 
   for (let attendee of attendees) {
     switch (users[attendee].type) {
-      case 'volunteer': volunteerCount++
-      case 'staff': staffCount++
-      case 'trustee': trusteeCount++
+      case 'volunteer': 
+        volunteerCount++
+        break
+      case 'staff': 
+        staffCount++
+        break
+      case 'trustee': 
+        trusteeCount++
+        break
     }
   }
 
@@ -190,28 +196,36 @@ async function getUsers(): Promise<Record<string, User>> {
   const columnHeadings = response.data.values?.splice(0,1)[0]
   for (let row of response.data.values ?? []) {
     const email = row[columnHeadings?.indexOf('email') ?? 0]
-    users[email] = new User(
-      email,
-      row[columnHeadings?.indexOf('name') ?? 1],
-      row[columnHeadings?.indexOf('type') ?? 2],
-      row[columnHeadings?.indexOf('phone') ?? 3],
-      row[columnHeadings?.indexOf('addr') ?? 4],
-      row[columnHeadings?.indexOf('postcode') ?? 5],
-      row[columnHeadings?.indexOf('dob') ?? 6],
-      row[columnHeadings?.indexOf('emergency_email') ?? 7],
-      row[columnHeadings?.indexOf('emergency_name') ?? 8],
-      row[columnHeadings?.indexOf('emergency_relation') ?? 9],
-      row[columnHeadings?.indexOf('emergency_phone') ?? 10],
-      row[columnHeadings?.indexOf('support_email') ?? 11],
-      row[columnHeadings?.indexOf('support_name') ?? 12],
-      row[columnHeadings?.indexOf('support_organisation') ?? 13],
-      row[columnHeadings?.indexOf('support_phone') ?? 14],
-      row[columnHeadings?.indexOf('medical_info') ?? 15],
-      row[columnHeadings?.indexOf('additional_info') ?? 16]
-    )
+    users[email] = createUserFromRow(email, row, columnHeadings as string[])
   }
 
   return users
+}
+
+function createUserFromRow(
+  email: string,
+  row: Array<string>,
+  columnHeadings: Array<string>
+): User {
+  return new User(
+    email,
+    row[columnHeadings?.indexOf('name') ?? 1],
+    row[columnHeadings?.indexOf('type') ?? 2],
+    row[columnHeadings?.indexOf('phone') ?? 3],
+    row[columnHeadings?.indexOf('addr') ?? 4],
+    row[columnHeadings?.indexOf('postcode') ?? 5],
+    row[columnHeadings?.indexOf('dob') ?? 6],
+    row[columnHeadings?.indexOf('emergency_email') ?? 7],
+    row[columnHeadings?.indexOf('emergency_name') ?? 8],
+    row[columnHeadings?.indexOf('emergency_relation') ?? 9],
+    row[columnHeadings?.indexOf('emergency_phone') ?? 10],
+    row[columnHeadings?.indexOf('support_email') ?? 11],
+    row[columnHeadings?.indexOf('support_name') ?? 12],
+    row[columnHeadings?.indexOf('support_organisation') ?? 13],
+    row[columnHeadings?.indexOf('support_phone') ?? 14],
+    row[columnHeadings?.indexOf('medical_info') ?? 15],
+    row[columnHeadings?.indexOf('additional_info') ?? 16]
+  )
 }
 
 export async function getUsersForProject(projectSlug: string): Promise<Array<User>> {
@@ -248,25 +262,7 @@ export async function getUsersFromAttendanceSheet(
     const email = row[columnHeadings?.indexOf('email') ?? 0]
     if (attendanceSheet.attendees.indexOf(email) > -1) {
       users.push(
-        new User(
-          email,
-          row[columnHeadings?.indexOf('name') ?? 1],
-          row[columnHeadings?.indexOf('type') ?? 2],
-          row[columnHeadings?.indexOf('phone') ?? 3],
-          row[columnHeadings?.indexOf('addr') ?? 4],
-          row[columnHeadings?.indexOf('postcode') ?? 5],
-          row[columnHeadings?.indexOf('dob') ?? 6],
-          row[columnHeadings?.indexOf('emergency_email') ?? 7],
-          row[columnHeadings?.indexOf('emergency_name') ?? 8],
-          row[columnHeadings?.indexOf('emergency_relation') ?? 9],
-          row[columnHeadings?.indexOf('emergency_phone') ?? 10],
-          row[columnHeadings?.indexOf('support_email') ?? 11],
-          row[columnHeadings?.indexOf('support_name') ?? 12],
-          row[columnHeadings?.indexOf('support_organisation') ?? 13],
-          row[columnHeadings?.indexOf('support_phone') ?? 14],
-          row[columnHeadings?.indexOf('medical_info') ?? 15],
-          row[columnHeadings?.indexOf('additional_info') ?? 16]
-        )
+        createUserFromRow(email, row, columnHeadings as string[])
       )
     }
   }
