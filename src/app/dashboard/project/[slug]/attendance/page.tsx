@@ -7,7 +7,7 @@ export default async function ProjectInformationPage( { params } : { params: { s
     const users = await getUsersForProject(params.slug)
     return (
         <div className="flex h-screen flex-col">
-            <div className="flex h-24 items-end mb-4 justify-center text-2xl">
+            <div className="flex h-16 items-end mb-4 justify-center text-2xl">
                 <span>{ `${unslug(params.slug)} - Attendance Sheet` }</span>
             </div>
             <div className="flex flex-1 justify-center">
