@@ -35,7 +35,6 @@ export default function RegistrationFormComponent() {
                                 <option>Volunteer</option>
                                 <option>Staff</option>
                                 <option>Trustee</option>
-                                <option>Visitor</option>
                             </select>
                         </div>
                         <div className="w-full text-center">

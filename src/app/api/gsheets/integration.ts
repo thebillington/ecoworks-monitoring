@@ -1,5 +1,8 @@
+'use server'
+
 import User from "@/app/models/user"
 import { google } from "googleapis"
+import { redirect } from "next/navigation"
 
 async function getGoogleAuthClient() {
   return await google.auth.getClient({
@@ -15,7 +18,6 @@ async function getGoogleAuthClient() {
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   })
 }
-
 
 export async function getProjects(): Promise<Array<string>> {
   const auth = await getGoogleAuthClient()
@@ -59,7 +61,93 @@ export async function getAttendanceSheet(projectSlug: string, date: Date) {
 
 }
 
-async function getUsers(): Promise<Array<User>> {
+interface ISubmitAttendanceSheetResponse {
+  message: string
+}
+
+export async function submitAttendanceSheet(
+  date: string,
+  projectSlug: string,
+  attendees: Array<string>,
+  additionalComments: string
+): Promise<ISubmitAttendanceSheetResponse> {
+  const hasAttendanceSheet = await attendanceSheetExistsFor(projectSlug, date)
+  const userCounts = await countUserTypes(attendees)
+
+  if (hasAttendanceSheet) return updateAttendanceSheet(
+    date,
+    projectSlug,
+    attendees,
+    additionalComments,
+    userCounts
+  )
+  
+  const auth = await getGoogleAuthClient()
+  const sheets = google.sheets({ version: "v4", auth })
+
+  const data = await sheets.spreadsheets.values.append({
+    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    valueInputOption: 'USER_ENTERED',
+    insertDataOption: 'INSERT_ROWS',
+    range: `project_${projectSlug}`,
+    requestBody: {
+      values: [
+        [
+          date,
+          additionalComments,
+          userCounts.volunteerCount,
+          userCounts.staffCount,
+          userCounts.trusteeCount,
+          ...attendees
+        ]
+      ],
+    },
+  })
+
+  redirect(`/dashboard/project/${projectSlug}`)
+}
+
+async function updateAttendanceSheet(
+  date: string,
+  projectSlug: string,
+  attendees: Array<string>,
+  additionalComments: string,
+  userCounts: ICountUserTypesResponse
+): Promise<ISubmitAttendanceSheetResponse> {
+  return { message: "success" }
+}
+
+interface ICountUserTypesResponse {
+  volunteerCount: number,
+  staffCount: number,
+  trusteeCount: number
+}
+
+async function countUserTypes(
+  attendees: Array<string>
+): Promise<ICountUserTypesResponse> {
+  const users = await getUsers()
+
+  let volunteerCount = 0
+  let staffCount = 0
+  let trusteeCount = 0
+
+  for (let attendee of attendees) {
+    switch (users[attendee].type) {
+      case 'volunteer': volunteerCount++
+      case 'staff': staffCount++
+      case 'trustee': trusteeCount++
+    }
+  }
+
+  return {
+    volunteerCount: volunteerCount,
+    staffCount: staffCount,
+    trusteeCount: trusteeCount
+  }
+}
+
+async function getUsers(): Promise<Record<string, User>> {
   const auth = await getGoogleAuthClient()
 
   const sheets = google.sheets({ version: "v4", auth })
@@ -69,15 +157,15 @@ async function getUsers(): Promise<Array<User>> {
     range: 'users',
   })
 
-  let users: Array<User> = []
+  let users: Record<string, User> = {}
 
   const columnHeadings = response.data.values?.splice(0,1)[0]
   for (let row of response.data.values ?? []) {
-    users.push(
-      new User(
-        row[columnHeadings?.indexOf('email') ?? 0],
-        row[columnHeadings?.indexOf('name') ?? 1],
-      )
+    const email = row[columnHeadings?.indexOf('email') ?? 0]
+    users[email] = new User(
+      email,
+      row[columnHeadings?.indexOf('name') ?? 1],
+      row[columnHeadings?.indexOf('type') ?? 2]
     )
   }
 
@@ -87,15 +175,16 @@ async function getUsers(): Promise<Array<User>> {
 export async function getUsersForProject(projectSlug: string): Promise<Array<User>> {
   const allUsers = await getUsers()
   const previousAttendeeEmails = await getPreviousAttendeeEmails(projectSlug)
-  let previousAttendees: Array<User> = []
-  let otherUsers: Array<User> = []
+  let users: Array<User> = []
 
-  for (let user of allUsers) {
-    if (previousAttendeeEmails.indexOf(user.email) > -1) previousAttendees.push(user)
-    else otherUsers.push(user)
+  for (let attendeeEmail of previousAttendeeEmails) {
+    users.push(allUsers[attendeeEmail])
+    delete allUsers[attendeeEmail]
   }
+
+  for (let key in allUsers) users.push(allUsers[key])
   
-  return [...previousAttendees, ...otherUsers]
+  return users
 }
 
 async function getPreviousAttendeeEmails(projectSlug: string): Promise<Array<string>> {
@@ -121,6 +210,11 @@ async function getPreviousAttendeeEmails(projectSlug: string): Promise<Array<str
   return attendees
 }
 
+interface IRegistrationFormResponse {
+  message: string
+  colour: string
+}
+
 export async function createUser(
   email: string,
   name: string,
@@ -128,8 +222,8 @@ export async function createUser(
 ): Promise<IRegistrationFormResponse>  {
 
   const users = await getUsers()
-  for (let user of users) {
-    if (user.email == email) {
+  for (let key in users) {
+    if (users[key].email == email) {
       return {
         message: "Email already registered",
         colour: "text-red-300"

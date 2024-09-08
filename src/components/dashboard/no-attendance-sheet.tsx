@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation"
 
 interface INoAttendanceSheetProps {
     projectName: string
-    today: string
+    date: string
 }
 
 export default function NoAttendanceSheetComponent(props: INoAttendanceSheetProps) {
@@ -12,8 +12,8 @@ export default function NoAttendanceSheetComponent(props: INoAttendanceSheetProp
     return (
         <div className='h-full flex items-center justify-center'>   
             <div className='block text-center max-w-xs'>
-                <p>There is no { props.projectName } attendance sheet for { props.today }</p>
-                <a href={`${pathname}/attendance`}>
+                <p>There is no { props.projectName } attendance sheet for { props.date }</p>
+                <a href={`${pathname}/attendance/${encodeURIComponent(props.date)}`}>
                     <button className="w-4/6 my-8 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Take Register</button>
                 </a>
             </div>

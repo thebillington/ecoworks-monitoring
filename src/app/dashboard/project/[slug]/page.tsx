@@ -8,6 +8,6 @@ export default async function ProjectInformationPage( { params } : { params: { s
         return unslug(params.slug)
     }
     return (
-        <NoAttendanceSheetComponent projectName={unslug(params.slug)} today={today}/>
+        <NoAttendanceSheetComponent projectName={unslug(params.slug)} date={today}/>
     )
 }
