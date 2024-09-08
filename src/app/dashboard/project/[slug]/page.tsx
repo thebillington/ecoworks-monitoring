@@ -7,15 +7,14 @@ export default async function ProjectInformationPage( { params } : { params: { s
     const date = todaysDateString()
     if (await attendanceSheetExistsFor(params.slug, date)) {
         const attendanceSheet = await getAttendanceSheet(params.slug, date)
-        console.log(attendanceSheet)
         return (
             <div className="flex h-screen flex-col">
-                <div className="flex flex-col self-center w-5/6 mt-8 mb-4 max-w-sm ml-4">
+                <div className="flex flex-col self-center w-5/6 mt-8 mb-4 max-w-4xl ml-4">
                     <p className="text-2xl">{ unslug(params.slug) }</p>
                     <p>Attendance Sheet - { date }</p>
                 </div>
                 <div className="flex flex-1 justify-center">
-                    <div className="w-5/6 h-5/6 max-w-sm">
+                    <div className="w-5/6 h-5/6 max-w-4xl">
                         <AttendanceSheetComponent attendanceSheet={ attendanceSheet } />
                     </div>
                 </div>
