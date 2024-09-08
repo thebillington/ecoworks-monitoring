@@ -1,6 +1,8 @@
 'use server'
 
+import AttendanceSheet from "@/app/models/attendance-sheet"
 import User from "@/app/models/user"
+import { todaysDateString } from "@/app/utilities"
 import { google } from "googleapis"
 import { redirect } from "next/navigation"
 
@@ -57,8 +59,34 @@ export async function attendanceSheetExistsFor(projectSlug: string, date: string
   return false
 }
 
-export async function getAttendanceSheet(projectSlug: string, date: Date) {
+export async function getAttendanceSheet(projectSlug: string, date: string): Promise<AttendanceSheet> {
+  const auth = await getGoogleAuthClient()
 
+  const sheets = google.sheets({ version: "v4", auth })
+
+  const response = await sheets.spreadsheets.values.get({
+    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    range: `project_${projectSlug}`,
+  })
+
+  const columnHeadings = response.data.values?.splice(0,1)[0]
+  
+  let attendees: Array<string> = []
+  let comments: string = ''
+  for (let row of response.data.values ?? []) {
+    if (row[columnHeadings?.indexOf('date') ?? 0] == date) {
+      comments = row[columnHeadings?.indexOf('comments') ?? 1]
+      for (let i = columnHeadings?.indexOf('attendees') ?? 5; i < row.length; i++) {
+        attendees.push(row[i])
+      }
+    }
+  }
+
+  return new AttendanceSheet(
+    date,
+    comments,
+    attendees
+  )
 }
 
 interface ISubmitAttendanceSheetResponse {
@@ -85,7 +113,7 @@ export async function submitAttendanceSheet(
   const auth = await getGoogleAuthClient()
   const sheets = google.sheets({ version: "v4", auth })
 
-  const data = await sheets.spreadsheets.values.append({
+  await sheets.spreadsheets.values.append({
     spreadsheetId: process.env.USERS_SPREADSHEET_ID,
     valueInputOption: 'USER_ENTERED',
     insertDataOption: 'INSERT_ROWS',
@@ -234,7 +262,7 @@ export async function createUser(
   const auth = await getGoogleAuthClient()
   const sheets = google.sheets({ version: "v4", auth })
 
-  const data = await sheets.spreadsheets.values.append({
+  await sheets.spreadsheets.values.append({
     spreadsheetId: process.env.USERS_SPREADSHEET_ID,
     valueInputOption: 'USER_ENTERED',
     insertDataOption: 'INSERT_ROWS',
@@ -246,6 +274,36 @@ export async function createUser(
 
   return {
     message: "Registration successful",
+    colour: "text-green-300"
+  }
+}
+
+export interface IProspectiveFormResponse {
+  message: string
+  colour: string
+}
+
+export async function createProspective(
+  email: string,
+  name: string
+): Promise<IProspectiveFormResponse>  {
+
+  const auth = await getGoogleAuthClient()
+  const sheets = google.sheets({ version: "v4", auth })
+  const date = todaysDateString()
+
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    valueInputOption: 'USER_ENTERED',
+    insertDataOption: 'INSERT_ROWS',
+    range: 'prospects',
+    requestBody: {
+      values: [ [ date, email, name, ] ],
+    },
+  })
+
+  return {
+    message: "Interest registered successfully",
     colour: "text-green-300"
   }
 }

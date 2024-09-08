@@ -1,23 +1,24 @@
 'use client'
 
-import submitRegistrationForm from "@/app/register/handler"
+import { IProspectiveFormResponse } from "@/app/api/gsheets/integration"
+import submitProspectiveForm from "@/app/prospective/handler"
 import { useFormState } from "react-dom"
 
-const initialState: IRegistrationFormResponse = {
+const initialState: IProspectiveFormResponse = {
     message: '',
     colour: ''
 }
 
-export default function RegistrationFormComponent() {
+export default function ProspectiveFormComponent() {
 
-    const [state, formAction] = useFormState(submitRegistrationForm, initialState)
+    const [state, formAction] = useFormState(submitProspectiveForm, initialState)
 
     return (
         <div className="flex flex-col items-center justify-center mx-auto h-dvh lg:py-0">
             <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                     <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                        Register to use the Ecoworks space
+                        Register interest in Ecoworks and we'll get back to you soon!
                     </h1>
                     <form className="space-y-4 md:space-y-6" action={formAction}>
                         <div>
@@ -27,15 +28,6 @@ export default function RegistrationFormComponent() {
                         <div>
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your name</label>
                             <input name="name" id="name" placeholder="John Doe" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-                        </div>
-                        <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Which best describes you?</label>
-                            <select id="user-type" name="user-type" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value='member'>Member</option>
-                                <option>Volunteer</option>
-                                <option>Staff</option>
-                                <option>Trustee</option>
-                            </select>
                         </div>
                         <div className="w-full text-center">
                             <p className={state?.colour} aria-live="polite">{state?.message}</p>
