@@ -1,10 +1,10 @@
-import { getPreviousAttendeeEmails, getUsers } from "@/app/api/gsheets/integration"
+
+import { getUsersForProject } from "@/app/api/gsheets/integration"
 import { unslug } from "@/app/utilities"
 import TakeAttendanceComponent from "@/components/dashboard/project/attendance/take-attendance"
 
 export default async function ProjectInformationPage( { params } : { params: { slug: string } } ) {
-    const users = await getUsers()
-    const previousAttendess = await getPreviousAttendeeEmails(params.slug)
+    const users = await getUsersForProject(params.slug)
     return (
         <div className="flex h-screen flex-col">
             <div className="flex h-24 items-end mb-4 justify-center text-2xl">

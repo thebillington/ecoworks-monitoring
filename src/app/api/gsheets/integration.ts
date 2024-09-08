@@ -59,7 +59,7 @@ export async function getAttendanceSheet(projectSlug: string, date: Date) {
 
 }
 
-export async function getUsers(): Promise<Array<User>> {
+async function getUsers(): Promise<Array<User>> {
   const auth = await getGoogleAuthClient()
 
   const sheets = google.sheets({ version: "v4", auth })
@@ -84,7 +84,21 @@ export async function getUsers(): Promise<Array<User>> {
   return users
 }
 
-export async function getPreviousAttendeeEmails(projectSlug: string): Promise<Array<string>> {
+export async function getUsersForProject(projectSlug: string): Promise<Array<User>> {
+  const allUsers = await getUsers()
+  const previousAttendeeEmails = await getPreviousAttendeeEmails(projectSlug)
+  let previousAttendees: Array<User> = []
+  let otherUsers: Array<User> = []
+
+  for (let user of allUsers) {
+    if (previousAttendeeEmails.indexOf(user.email) > -1) previousAttendees.push(user)
+    else otherUsers.push(user)
+  }
+  
+  return [...previousAttendees, ...otherUsers]
+}
+
+async function getPreviousAttendeeEmails(projectSlug: string): Promise<Array<string>> {
   const auth = await getGoogleAuthClient()
 
   const sheets = google.sheets({ version: "v4", auth })
