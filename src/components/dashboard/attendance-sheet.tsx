@@ -17,12 +17,14 @@ export default async function AttendanceSheetComponent(
             </div>
             <span className="ml-2">Attendees</span>
             <div className="max-h-[55%] relative overflow-y-auto no-scrollbar my-2 rounded-md">
-                <table className="h-full w-full table-fixed text-sm text-left rounded-md rtl:text-right text-gray-500 dark:text-gray-400">
+                <table className="h-full w-full text-sm text-left rounded-md rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr key="headings">
-                            <th scope="col" className="px-6 py-3">Name</th>
-                            <th scope="col" className="px-6 py-3 hidden sm:table-cell">Medical Info</th>
-                            <th scope="col" className="px-6 py-3 hidden lg:table-cell">Additional Info</th>
+                            <th scope="col" className="px-6 py-3">Details</th>
+                            <th scope="col" className="px-6 py-3">Medical Info</th>
+                            <th scope="col" className="px-6 py-3">Additional Info</th>
+                            <th scope="col" className="px-6 py-3">Emergency Contact</th>
+                            <th scope="col" className="px-6 py-3">Support Worker</th>
                             <th scope="col" className="px-6 py-3 text-center">Actions</th>
                         </tr>
                     </thead>
@@ -30,25 +32,44 @@ export default async function AttendanceSheetComponent(
                         {
                             attendees.map( ( user, i ) => 
                                 <tr key={ user.name } className={`bg-white ${i != attendees.length - 1 ? 'border-b ' : ' '}dark:bg-gray-800 dark:border-gray-700`}>
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        { user.name }
+                                    <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                        <p className="font-medium">{ user.name }</p>
+                                        <p className="font-light"><a href={ `tel:${ user.phone }` }>{ user.phone }</a></p>
+                                        <p className="font-light"><a href={ `mailto:${ user.email }` }>{ user.email }</a></p>
                                     </th>
-                                    <td className="px-6 py-4 hidden sm:table-cell">
-                                        <div className="flex w-full">
-                                            { user.medical_info }
-                                        </div>
+                                    <td className="px-6 py-4 min-w-72">
+                                        { user.medical_info }
                                     </td>
-                                    <td className="px-6 py-4 hidden lg:table-cell">
-                                        <div className="flex w-full">
-                                            { user.additional_info }
-                                        </div>
+                                    <td className="px-6 py-4 min-w-72">
+                                        { user.additional_info }
                                     </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex w-full justify-center">
-                                            <button data-dropdown-toggle={ `${ user.email }-dropdown`} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-                                                View Info
+                                    <td className="px-6 py-4 min-w-72">
+                                        { `${ user.emergency_name}, Relationship: ${user.emergency_relation}` }
+                                    </td>
+                                    <td className="px-6 py-4 min-w-72">
+                                    { `${ user.support_name}, Organisation: ${user.support_organisation}` }
+                                    </td>
+                                    <td className="grid grid-cols-2 gap-2 text-center px-6 py-4 min-w-96">
+                                        <a href={ `tel:${ user.emergency_phone }` }>
+                                            <button className="col text-xs m1 min-w-36 text-white bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center" type="button">
+                                                Call Emergency
                                             </button>
-                                        </div>
+                                        </a>
+                                        <a href={ `mailto:${ user.emergency_email }` }>
+                                            <button className="col text-xs m1 min-w-36 text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:outline-none font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center" type="button">
+                                                Email Emergency
+                                            </button>
+                                        </a>
+                                        <a href={ `tel:${ user.support_phone }` }>
+                                            <button className="col text-xs m1 min-w-36 text-white bg-orange-500 hover:bg-orange-700 focus:ring-4 focus:outline-none font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center" type="button">
+                                                Call Support
+                                            </button>
+                                        </a>
+                                        <a href={ `tel:${ user.support_email }` }>
+                                            <button className="col text-xs m1 min-w-36 text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:outline-none font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center" type="button">
+                                                Email Support
+                                            </button>
+                                        </a>
                                     </td>
                                 </tr>
                             )
@@ -59,6 +80,12 @@ export default async function AttendanceSheetComponent(
             <div className="flex flex-col w-full text-center mt-6">
                 <button className="w-full mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Edit</button>
             </div>
+            <dialog id="user-details" className="modal">
+                <div className="modal-box">
+                    <h3 className="font-bold text-lg">Hello!</h3>
+                    <p className="py-4">Press ESC key or click outside to close</p>
+                </div>
+            </dialog>
         </>
     )
 }

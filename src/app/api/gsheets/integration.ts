@@ -217,7 +217,7 @@ function createUserFromRow(
     row[columnHeadings?.indexOf('dob') ?? 6],
     row[columnHeadings?.indexOf('emergency_email') ?? 7],
     row[columnHeadings?.indexOf('emergency_name') ?? 8],
-    row[columnHeadings?.indexOf('emergency_relation') ?? 9],
+    row[columnHeadings?.indexOf('emergency_relationship') ?? 9],
     row[columnHeadings?.indexOf('emergency_phone') ?? 10],
     row[columnHeadings?.indexOf('support_email') ?? 11],
     row[columnHeadings?.indexOf('support_name') ?? 12],
