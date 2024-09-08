@@ -37,8 +37,8 @@ export default function TakeAttendanceComponent(
                 </div>
                 <input type="search" onChange={ (e) => handleSearch(e.target.value) } id="search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Name..." />
             </div>
-            <div className="h-full relative overflow-y-auto no-scrollbar my-2 rounded-md">
-                <table className="h-full w-full table-fixed text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <div className="max-h-full relative overflow-y-auto no-scrollbar my-2 rounded-md">
+                <table className="h-full w-full table-fixed text-sm text-left rounded-md rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr key="headings">
                             <th scope="col" className="px-6 py-3">Name</th>
@@ -48,7 +48,7 @@ export default function TakeAttendanceComponent(
                     <tbody>
                         {
                             users.map( ( user, i ) => 
-                                <tr key={ user.email } className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <tr key={ user.email } className={`bg-white ${i != users.length - 1 ? 'border-b ' : ' '}dark:bg-gray-800 dark:border-gray-700`}>
                                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         { user.name }
                                     </th>
