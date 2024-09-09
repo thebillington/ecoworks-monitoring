@@ -4,7 +4,6 @@ import User from "@/app/models/user";
 import AttendanceCheckboxComponent from "./attendance-checkbox";
 import { useState } from "react";
 import { submitAttendanceSheet } from "@/app/api/gsheets/integration";
-import { useRouter } from "next/router";
 
 interface ITakeAttendanceProps {
     date: string,
@@ -12,13 +11,14 @@ interface ITakeAttendanceProps {
     users: string
 }
 
+let attendees: Array<string> = []
+let comments: string
+
 export default function TakeAttendanceComponent(
     props: ITakeAttendanceProps
 ) {
     const allUsers = JSON.parse( props.users )
     const [users, setUsers] = useState<Array<User>>(allUsers)
-    let attendees: Array<string> = []
-    let comments: string
 
     const [error, setError] = useState<string | undefined>(undefined)
 
