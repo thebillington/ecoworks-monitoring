@@ -1,7 +1,7 @@
 'use server'
 
 import AttendanceSheet from "@/models/attendance-sheet"
-import { User } from "@/models/user"
+import User from "@/models/user"
 import { todaysDateString } from "@/app/utilities"
 import { google } from "googleapis"
 import { redirect } from "next/navigation"
@@ -207,27 +207,27 @@ function createUserFromRow(
   row: Array<string>,
   columnHeadings: Array<string>
 ): User {
-  return {
-    email: email,
-    name: row[columnHeadings?.indexOf('name') ?? 1],
-    type: row[columnHeadings?.indexOf('type') ?? 2],
-    phone: row[columnHeadings?.indexOf('phone') ?? 3],
-    addr: row[columnHeadings?.indexOf('addr') ?? 4],
-    postcode: row[columnHeadings?.indexOf('postcode') ?? 5],
-    dob: row[columnHeadings?.indexOf('dob') ?? 6],
-    emergency_email: row[columnHeadings?.indexOf('emergency_email') ?? 7],
-    emergency_name: row[columnHeadings?.indexOf('emergency_name') ?? 8],
-    emergency_relation: row[columnHeadings?.indexOf('emergency_relationship') ?? 9],
-    emergency_phone: row[columnHeadings?.indexOf('emergency_phone') ?? 10],
-    support_email: row[columnHeadings?.indexOf('support_email') ?? 11],
-    support_name: row[columnHeadings?.indexOf('support_name') ?? 12],
-    support_organisation: row[columnHeadings?.indexOf('support_organisation') ?? 13],
-    support_phone: row[columnHeadings?.indexOf('support_phone') ?? 14],
-    medical_info: row[columnHeadings?.indexOf('medical_info') ?? 15],
-    additional_info: row[columnHeadings?.indexOf('additional_info') ?? 16],
-    employment_details: row[columnHeadings?.indexOf('medical_info') ?? 17],
-    cultural_background: row[columnHeadings?.indexOf('additional_info') ?? 18]
-  }
+  return new User(
+    email,
+    row[columnHeadings?.indexOf('name') ?? 1],
+    row[columnHeadings?.indexOf('type') ?? 2],
+    row[columnHeadings?.indexOf('phone') ?? 3],
+    row[columnHeadings?.indexOf('addr') ?? 4],
+    row[columnHeadings?.indexOf('postcode') ?? 5],
+    row[columnHeadings?.indexOf('dob') ?? 6],
+    row[columnHeadings?.indexOf('emergency_email') ?? 7],
+    row[columnHeadings?.indexOf('emergency_name') ?? 8],
+    row[columnHeadings?.indexOf('emergency_relationship') ?? 9],
+    row[columnHeadings?.indexOf('emergency_phone') ?? 10],
+    row[columnHeadings?.indexOf('support_email') ?? 11],
+    row[columnHeadings?.indexOf('support_name') ?? 12],
+    row[columnHeadings?.indexOf('support_organisation') ?? 13],
+    row[columnHeadings?.indexOf('support_phone') ?? 14],
+    row[columnHeadings?.indexOf('medical_info') ?? 15],
+    row[columnHeadings?.indexOf('additional_info') ?? 16],
+    row[columnHeadings?.indexOf('medical_info') ?? 17],
+    row[columnHeadings?.indexOf('additional_info') ?? 18]
+  )
 }
 
 export async function getUsersForProject(projectSlug: string): Promise<Array<User>> {
