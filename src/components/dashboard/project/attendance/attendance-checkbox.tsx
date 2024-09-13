@@ -1,4 +1,4 @@
-import User from "@/app/models/user"
+import User from "@/models/user"
 import { ChangeEvent, useState } from "react"
 
 interface IAttendanceCheckboxProps {

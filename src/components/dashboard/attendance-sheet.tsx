@@ -1,5 +1,5 @@
 import { getUsersFromAttendanceSheet } from "@/app/api/gsheets/integration";
-import AttendanceSheet from "@/app/models/attendance-sheet";
+import AttendanceSheet from "@/models/attendance-sheet";
 
 interface IAttendanceSheetProps {
     attendanceSheet: AttendanceSheet

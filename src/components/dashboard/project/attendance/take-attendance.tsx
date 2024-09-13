@@ -1,6 +1,6 @@
 'use client'
 
-import User from "@/app/models/user";
+import User from "@/models/user";
 import AttendanceCheckboxComponent from "./attendance-checkbox";
 import { useState } from "react";
 import { submitAttendanceSheet } from "@/app/api/gsheets/integration";

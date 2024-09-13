@@ -1,7 +1,7 @@
 'use server'
 
-import AttendanceSheet from "@/app/models/attendance-sheet"
-import User from "@/app/models/user"
+import AttendanceSheet from "@/models/attendance-sheet"
+import { User } from "@/models/user"
 import { todaysDateString } from "@/app/utilities"
 import { google } from "googleapis"
 import { redirect } from "next/navigation"
@@ -207,25 +207,27 @@ function createUserFromRow(
   row: Array<string>,
   columnHeadings: Array<string>
 ): User {
-  return new User(
-    email,
-    row[columnHeadings?.indexOf('name') ?? 1],
-    row[columnHeadings?.indexOf('type') ?? 2],
-    row[columnHeadings?.indexOf('phone') ?? 3],
-    row[columnHeadings?.indexOf('addr') ?? 4],
-    row[columnHeadings?.indexOf('postcode') ?? 5],
-    row[columnHeadings?.indexOf('dob') ?? 6],
-    row[columnHeadings?.indexOf('emergency_email') ?? 7],
-    row[columnHeadings?.indexOf('emergency_name') ?? 8],
-    row[columnHeadings?.indexOf('emergency_relationship') ?? 9],
-    row[columnHeadings?.indexOf('emergency_phone') ?? 10],
-    row[columnHeadings?.indexOf('support_email') ?? 11],
-    row[columnHeadings?.indexOf('support_name') ?? 12],
-    row[columnHeadings?.indexOf('support_organisation') ?? 13],
-    row[columnHeadings?.indexOf('support_phone') ?? 14],
-    row[columnHeadings?.indexOf('medical_info') ?? 15],
-    row[columnHeadings?.indexOf('additional_info') ?? 16]
-  )
+  return {
+    email: email,
+    name: row[columnHeadings?.indexOf('name') ?? 1],
+    type: row[columnHeadings?.indexOf('type') ?? 2],
+    phone: row[columnHeadings?.indexOf('phone') ?? 3],
+    addr: row[columnHeadings?.indexOf('addr') ?? 4],
+    postcode: row[columnHeadings?.indexOf('postcode') ?? 5],
+    dob: row[columnHeadings?.indexOf('dob') ?? 6],
+    emergency_email: row[columnHeadings?.indexOf('emergency_email') ?? 7],
+    emergency_name: row[columnHeadings?.indexOf('emergency_name') ?? 8],
+    emergency_relation: row[columnHeadings?.indexOf('emergency_relationship') ?? 9],
+    emergency_phone: row[columnHeadings?.indexOf('emergency_phone') ?? 10],
+    support_email: row[columnHeadings?.indexOf('support_email') ?? 11],
+    support_name: row[columnHeadings?.indexOf('support_name') ?? 12],
+    support_organisation: row[columnHeadings?.indexOf('support_organisation') ?? 13],
+    support_phone: row[columnHeadings?.indexOf('support_phone') ?? 14],
+    medical_info: row[columnHeadings?.indexOf('medical_info') ?? 15],
+    additional_info: row[columnHeadings?.indexOf('additional_info') ?? 16],
+    employment_details: row[columnHeadings?.indexOf('medical_info') ?? 17],
+    cultural_background: row[columnHeadings?.indexOf('additional_info') ?? 18]
+  }
 }
 
 export async function getUsersForProject(projectSlug: string): Promise<Array<User>> {
@@ -293,26 +295,40 @@ async function getPreviousAttendeeEmails(projectSlug: string): Promise<Array<str
   return attendees
 }
 
-interface IRegistrationFormResponse {
+export interface IFormResponse {
+  status: number
   message: string
   colour: string
+}
+
+export async function checkIfEmailRegistered(
+  email: string
+): Promise<IFormResponse> {
+  const users = await getUsers()
+  for (let key in users) {
+    if (users[key].email == email) {
+      return {
+        status: 409,
+        message: "Email is already registered!\nIf you need to update your details, please speak to a member of the Ecoworks team.",
+        colour: "text-red-300"
+      }
+    }
+  }
+  return {
+    status: 200,
+    message: "Email available",
+    colour: "text-green-300"
+  }
 }
 
 export async function createUser(
   email: string,
   name: string,
   type: string
-): Promise<IRegistrationFormResponse>  {
+): Promise<IFormResponse>  {
 
-  const users = await getUsers()
-  for (let key in users) {
-    if (users[key].email == email) {
-      return {
-        message: "Email already registered",
-        colour: "text-red-300"
-      }
-    }
-  }
+  const response = await checkIfEmailRegistered(email)
+  if (response.status != 200) return response
 
   const auth = await getGoogleAuthClient()
   const sheets = google.sheets({ version: "v4", auth })
@@ -328,6 +344,7 @@ export async function createUser(
   })
 
   return {
+    status: 200,
     message: "Registration successful",
     colour: "text-green-300"
   }

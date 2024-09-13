@@ -1,5 +1,3 @@
-import User from "./user"
-
 export default class AttendanceSheet {
     date: string
     comments: string
