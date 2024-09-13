@@ -67,4 +67,26 @@ export default class User {
         this.employment_details = employment_details
         this.cultural_background = cultural_background
     }
+
+    pretty() {
+        return `Email: ${this.email}
+Name: ${this.name}
+User Type: ${this.type}\n
+Phone: ${this.phone}
+Address: ${this.addr}
+Postcode: ${this.postcode}
+DOB: ${this.dob}\n
+Emergency Contact Name: ${this.emergency_name}
+Emergency Contact Relationship: ${this.emergency_relation}
+Emergency Contact Email: ${this.emergency_email}
+Emergency Contact Phone: ${this.emergency_phone}\n
+Support Worker Name: ${this.support_name}
+Support Worker Organisation: ${this.support_organisation}
+Support Worker Email: ${this.support_email}
+Support Worker Phone: ${this.support_phone}\n
+Medical Info:${ this.medical_info ?? '' }\n
+Additional Info:${ this.additional_info ?? '' }\n
+Employment Details: ${this.employment_details}
+Cultural Background: ${this.cultural_background}`
+    }
 }

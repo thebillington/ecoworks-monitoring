@@ -83,9 +83,7 @@ export default function TakeAttendanceComponent(
                                         { user.name }
                                     </th>
                                     <td className="px-6 py-4">
-                                        <div className="flex w-full items-center justify-center">
-                                            <AttendanceCheckboxComponent user={ user } isChecked={ false } userSelectedCallback={ attendeeToggled } />
-                                        </div>
+                                        <AttendanceCheckboxComponent user={ user } isChecked={ false } userSelectedCallback={ attendeeToggled } />
                                     </td>
                                 </tr>
                             )
