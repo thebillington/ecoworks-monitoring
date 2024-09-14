@@ -1,5 +1,4 @@
-import RegistrationFormComponent from "@/components/registration-form"
-
-export default async function RegistrationPage() {
-    return <RegistrationFormComponent />
+import { redirect } from 'next/navigation'
+export default function RegisterRedirect() {
+    redirect('/register/user-details')
 }

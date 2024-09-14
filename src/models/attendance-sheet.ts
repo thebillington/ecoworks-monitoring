@@ -1,14 +1,12 @@
-import User from "./user"
-
 export default class AttendanceSheet {
-    date: Date
+    date: string
     comments: string
-    attendees: Array<User>
+    attendees: Array<string>
 
     constructor(
-        date: Date,
+        date: string,
         comments: string,
-        attendees: Array<User>
+        attendees: Array<string>
     ) {
         this.date = date
         this.comments = comments

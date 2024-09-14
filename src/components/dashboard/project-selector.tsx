@@ -1,6 +1,6 @@
 'use client'
 
-import { unslug } from "@/app/utilities"
+import { unslug } from "@/utilities"
 import { usePathname } from "next/navigation"
 
 interface IProjectSelectorProps {
