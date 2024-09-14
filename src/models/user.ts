@@ -68,6 +68,48 @@ export default class User {
         this.cultural_background = cultural_background
     }
 
+    // Needed as a hacky workaround since the user object can't be passed to a Server Action
+    static FromJSON(json: string): User {
+        const obj = JSON.parse(json)
+        return new User(
+            obj.email,
+            obj.name,
+            obj.type,
+            obj.phone,
+            obj.addr,
+            obj.postcode,
+            obj.dob,
+            obj.emergency_email,
+            obj.emergency_name,
+            obj.emergency_relation,
+            obj.emergency_phone,
+            obj.support_email,
+            obj.support_name,
+            obj.support_organisation,
+            obj.support_phone,
+            obj.medical_info,
+            obj.additional_info,
+            obj.employment_details,
+            obj.cultural_background
+        )
+    }
+
+    hasFinishedRegistration(): boolean {
+        return (
+            this.email != null &&
+            this.name != null &&
+            this.type != null &&
+            this.phone != null &&
+            this.addr != null &&
+            this.postcode != null &&
+            //this.dob != null &&
+            this.emergency_email != null &&
+            this.emergency_name != null &&
+            this.emergency_relation != null &&
+            this.emergency_phone != null
+        )
+    }
+
     pretty() {
         return `Email: ${this.email}
 Name: ${this.name}

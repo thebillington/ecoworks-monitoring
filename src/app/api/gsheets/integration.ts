@@ -322,12 +322,20 @@ export async function checkIfEmailRegistered(
 }
 
 export async function createUser(
-  email: string,
-  name: string,
-  type: string
+  userJSON: string
 ): Promise<IFormResponse>  {
 
-  const response = await checkIfEmailRegistered(email)
+  const user = User.FromJSON(userJSON)
+  
+  if (!user.hasFinishedRegistration()) {
+    return {
+      status: 400,
+      message: "Something went wrong during registration. Please try again and if the issue persists, let a member of the team know.",
+      colour: "text-red-300"
+    }
+  }
+
+  const response = await checkIfEmailRegistered(user.email!)
   if (response.status != 200) return response
 
   const auth = await getGoogleAuthClient()
@@ -339,7 +347,29 @@ export async function createUser(
     insertDataOption: 'INSERT_ROWS',
     range: 'users',
     requestBody: {
-      values: [ [ email, name, type, ] ],
+      values: [
+        [
+          user.email,
+          user.name,
+          user.type,
+          user.phone,
+          user.addr,
+          user.postcode,
+          user.dob,
+          user.emergency_email,
+          user.emergency_name,
+          user.emergency_relation,
+          user.emergency_phone,
+          user.support_email,
+          user.support_name,
+          user.support_organisation,
+          user.support_phone,
+          user.medical_info,
+          user.additional_info,
+          user.employment_details,
+          user.cultural_background
+        ]
+      ],
     },
   })
 

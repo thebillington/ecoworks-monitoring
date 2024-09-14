@@ -23,7 +23,7 @@ export default function TakeAttendanceComponent(
     const [error, setError] = useState<string | undefined>(undefined)
 
     function handleSearch(term: string) {
-        setUsers(allUsers.filter( (user: User) => user.name.toLowerCase().indexOf(term.toLowerCase()) > -1 ))
+        setUsers(allUsers.filter( (user: User) => user?.name ?? ''.toLowerCase().indexOf(term.toLowerCase()) > -1 ))
     }
 
     function updateComments(comment: string) {

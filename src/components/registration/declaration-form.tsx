@@ -3,6 +3,15 @@
 import { useContext } from "react"
 import { RegistrationFormContext } from "@/app/register/layout"
 import { useRouter } from "next/navigation"
+import { createUser, IFormResponse } from "@/app/api/gsheets/integration"
+import { useFormState } from "react-dom"
+import User from "@/models/user"
+
+const initialState: IFormResponse = {
+    status: 0,
+    message: '',
+    colour: ''
+}
 
 export default function DeclarationFormComponent() {
 
@@ -11,17 +20,22 @@ export default function DeclarationFormComponent() {
     const context = useContext(RegistrationFormContext)
     let user = context
 
-    function submitRegistrationForm(formData: FormData) {
+    async function submitDeclarationForm(prevState: any, formData: FormData) {
+
+        const response = await createUser(JSON.stringify(user))
+        if (response.status != 200) return response
 
         router.push('/register/success')
     }
+
+    const [state, formAction] = useFormState(submitDeclarationForm, initialState)
 
     return (
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Declaration
             </h1>
-            <form className="space-y-4 md:space-y-6" action={ submitRegistrationForm }>
+            <form className="space-y-4 md:space-y-6" action={ formAction }>
                 <div>
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your details</label>
                     <textarea value={ user.pretty() } name="medical-info" disabled className="resize-none no-scrollbar h-40 p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -39,9 +53,9 @@ export default function DeclarationFormComponent() {
                         <p className="ms-2 text-xs">I have read the <a className="text-blue-600 dark:text-blue-500 hover:underline" href='/documents/health-and-safety.pdf'>health and safety</a> guidelines and agree to abide by these when on site</p>
                     </div>
                 </div>
-                {/* <div className="w-full text-center">
+                <div className="w-full text-center">
                     <p className={state?.colour} aria-live="polite">{state?.message}</p>
-                </div> */}
+                </div>
                 <div className="w-full text-center">
                     <button type="button" onClick={() => router.back()} className="w-[48%] my-4 text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Previous</button>
                     <button type="submit" className="w-[45%] my-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Register</button>
