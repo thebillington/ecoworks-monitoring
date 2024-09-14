@@ -14,6 +14,17 @@ export function dateAsLocale(date: Date) {
     return date.toLocaleDateString(process.env.DATE_LOCALE)
 }
 
+export function calendarPickerFormatToBritishDateString(date: string): string {
+    const splitDate = date.split('-')
+    return `${ splitDate[2] }/${ splitDate[1] }/${ splitDate[0] }`
+}
+
+export function britishDateStringToCalendarPickerFormat(date: string): string {
+    if ( date === '' ) return ''
+    const splitDate = date.split('/')
+    return `${ splitDate[2] }-${ splitDate[1] }-${ splitDate[0] }`
+}
+
 export function todaysDateString() {
     return dateAsLocale(new Date())
 }

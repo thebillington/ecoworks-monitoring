@@ -2,7 +2,7 @@
 
 import AttendanceSheet from "@/models/attendance-sheet"
 import User from "@/models/user"
-import { todaysDateString } from "@/app/utilities"
+import { todaysDateString } from "@/utilities"
 import { google } from "googleapis"
 import { redirect } from "next/navigation"
 

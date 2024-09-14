@@ -1,5 +1,5 @@
 import { attendanceSheetExistsFor, getAttendanceSheet } from "@/app/api/gsheets/integration";
-import { todaysDateString, unslug } from "@/app/utilities";
+import { todaysDateString, unslug } from "@/utilities";
 import AttendanceSheetComponent from "@/components/dashboard/attendance-sheet";
 import NoAttendanceSheetComponent from "@/components/dashboard/no-attendance-sheet";
 
