@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth/next'
 import LoginComponent from '@/components/login'
-import { authOptions } from "@/app/auth"
+import { authOptions } from "@/auth"
 import { redirect } from 'next/navigation'
 
 export default async function DashboardPage() {
