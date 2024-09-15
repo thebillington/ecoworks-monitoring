@@ -2019,46 +2019,46 @@ source-map-js@^1.0.2, source-map-js@^1.2.0:
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.2.0.tgz#16b809c162517b5b8c3e7dcd315a2a5c2612b2af"
   integrity sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==
 
-sst-darwin-arm64@3.0.102:
-  version "3.0.102"
-  resolved "https://registry.yarnpkg.com/sst-darwin-arm64/-/sst-darwin-arm64-3.0.102.tgz#3739f469be4e5a55625999290a5c1472fd67190b"
-  integrity sha512-VhhixzEH03v9RBViGkSi1Dy3BfHQIJtv15K3PawOhbN3oT4KacizwJLVHS4ELLDdBtY5xtBVvIDRv0Qu8i7HqQ==
+sst-darwin-arm64@3.1.10:
+  version "3.1.10"
+  resolved "https://registry.yarnpkg.com/sst-darwin-arm64/-/sst-darwin-arm64-3.1.10.tgz#60170c99ccf6b100ad52104ddf858fba3b6526c2"
+  integrity sha512-vVNYDjoc4vYukvTAJBDJ4HXP5ky/SJbvhgeiVYgriphZM/9x8R0msU6t66HOWQ2JOt9Am7TIAC8UFilKJh4VSA==
 
-sst-darwin-x64@3.0.102:
-  version "3.0.102"
-  resolved "https://registry.yarnpkg.com/sst-darwin-x64/-/sst-darwin-x64-3.0.102.tgz#62bbbadef28ceefd87270c4ac918ac7f8e34dcc6"
-  integrity sha512-2cAiQ90zQ6LnI1YcRahDcFKM5TPS83v5BEAv2WkffTpQ97NaxlTOhCqqsnrmyaymqy5SdFWDemXGYsSxjL/5Ew==
+sst-darwin-x64@3.1.10:
+  version "3.1.10"
+  resolved "https://registry.yarnpkg.com/sst-darwin-x64/-/sst-darwin-x64-3.1.10.tgz#dac75b44cc9280c89a34e33b96e30536d85a8560"
+  integrity sha512-rXv6a1553RYqKn4DztP0ecTUH+iI4k4SBM7a/12kkE1B0GPvVNu63FtXHCvQuGDZR2EcDj1alm9aE3r3ff/Mvg==
 
-sst-linux-arm64@3.0.102:
-  version "3.0.102"
-  resolved "https://registry.yarnpkg.com/sst-linux-arm64/-/sst-linux-arm64-3.0.102.tgz#86f021a7a25d7d2d12cde1a77d3481dd28e31489"
-  integrity sha512-rG2J56W61lslhtFCeIJ6NfYSuzjWzb7u+VLFWJIIIFKXc6wbI4OuZkd+/OKLInzSKbIrFlECSQcSAhxrJu0Lyg==
+sst-linux-arm64@3.1.10:
+  version "3.1.10"
+  resolved "https://registry.yarnpkg.com/sst-linux-arm64/-/sst-linux-arm64-3.1.10.tgz#5cb81c578e69881363d29c0b88ce72b60f2e3c6d"
+  integrity sha512-jBG9ycv5XYTD4u4Zqwv8I6NRqAF/UMPLOAcQm8LyLt3VHrAbtjmYcHN2AmKqyjIM99dKHBKotVqmJ55EOsABag==
 
-sst-linux-x64@3.0.102:
-  version "3.0.102"
-  resolved "https://registry.yarnpkg.com/sst-linux-x64/-/sst-linux-x64-3.0.102.tgz#2da5b97813f807d6185bcc18dc8e456529c897d3"
-  integrity sha512-83a2T7/0WJYGw1tyBTE1r2Jlq+t+8NQ1S3Qehxh4+QoAKrmlw7e7G6IIuwo4Ebv7l0t1FY35gCa1yxjOfGEgcQ==
+sst-linux-x64@3.1.10:
+  version "3.1.10"
+  resolved "https://registry.yarnpkg.com/sst-linux-x64/-/sst-linux-x64-3.1.10.tgz#760640b7206616a15fe3cb8ddc3e8e17c7a5201f"
+  integrity sha512-LRQmyBbq44GsQh0JgVHyalmxQSBuDM4hcBsY8siGkG72xxe0kQaSyZbfZ0MIbGW7fgzUebwYkIJ/WuNbfgG7YA==
 
-sst-linux-x86@3.0.102:
-  version "3.0.102"
-  resolved "https://registry.yarnpkg.com/sst-linux-x86/-/sst-linux-x86-3.0.102.tgz#4080b7aea8c6c8ddb83e2346b187361ba13d6549"
-  integrity sha512-wElW9bHHG2nXZTL49u0PUoWKSSJeA2cydK5aEXgRkLbEnGghvdw0ZJgu0EaadExaQnQzDJ6nCU7TjOuU2/6BUA==
+sst-linux-x86@3.1.10:
+  version "3.1.10"
+  resolved "https://registry.yarnpkg.com/sst-linux-x86/-/sst-linux-x86-3.1.10.tgz#63adf3515fa72defda0280bce478deb6f484603b"
+  integrity sha512-aAry4PKDbC1cIrwlCVkWhTssoOvgMi2HFXfRBoo+ePgtR8jJv+S0XAYaS3eXdW0NVia1f4Rkt961TIg9/vXcpw==
 
-sst@3.0.102:
-  version "3.0.102"
-  resolved "https://registry.yarnpkg.com/sst/-/sst-3.0.102.tgz#8a7787efba2530c801819d6481a1f62254a135cf"
-  integrity sha512-s3DajTY8Q2iTL6s+Kw/SsRUnE27iOanW9kpcJWph01K7B6YgY0kdGgpeUl3xKytVWXkI9vRyuQqZeltCt75qGg==
+sst@3.1.10:
+  version "3.1.10"
+  resolved "https://registry.yarnpkg.com/sst/-/sst-3.1.10.tgz#da8759b544cd005b267528f99a10ced903c760cf"
+  integrity sha512-VMI+jtUIKE9/+23DYfnHNfTNjTRco0470gEoUd1MssAiMDpQgZPKcd+g3OGQCxY9b+AkJLTLpI/PfWEV0ehN4g==
   dependencies:
     "@aws-sdk/client-lambda" "3.478.0"
     aws4fetch "^1.0.18"
     jose "5.2.3"
     openid-client "5.6.4"
   optionalDependencies:
-    sst-darwin-arm64 "3.0.102"
-    sst-darwin-x64 "3.0.102"
-    sst-linux-arm64 "3.0.102"
-    sst-linux-x64 "3.0.102"
-    sst-linux-x86 "3.0.102"
+    sst-darwin-arm64 "3.1.10"
+    sst-darwin-x64 "3.1.10"
+    sst-linux-arm64 "3.1.10"
+    sst-linux-x64 "3.1.10"
+    sst-linux-x86 "3.1.10"
 
 streamsearch@^1.1.0:
   version "1.1.0"
