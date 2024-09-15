@@ -12,7 +12,7 @@ export default async function DashboardPage() {
     ]
     return (
         <>
-            <div className="flex w-full overflow-auto items-center justify-center lg:gap-x-4 flex-col sm:flex-row">
+            <div className="flex w-full overflow-auto items-center justify-center lg:gap-x-4 flex-col md:items-start md:flex-row">
                 <ProjectSelectorComponent projects={projects} />
                 <DailyChecksComponent checks={ dailyChecks }/>
             </div>
