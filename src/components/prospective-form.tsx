@@ -1,7 +1,6 @@
 'use client'
 
-import { IProspectiveFormResponse } from "@/app/api/gsheets/integration"
-import submitProspectiveForm from "@/app/prospective/handler"
+import { createProspective, IProspectiveFormResponse } from "@/app/api/gsheets/integration"
 import { useFormState } from "react-dom"
 
 const initialState: IProspectiveFormResponse = {
@@ -10,6 +9,13 @@ const initialState: IProspectiveFormResponse = {
 }
 
 export default function ProspectiveFormComponent() {
+
+    async function submitProspectiveForm(prevState: any, formData: FormData) {
+        return await createProspective(
+            formData.get('email') as string,
+            formData.get('name') as string
+        )
+    }
 
     const [state, formAction] = useFormState(submitProspectiveForm, initialState)
 
@@ -33,7 +39,7 @@ export default function ProspectiveFormComponent() {
                             <p className={state?.colour} aria-live="polite">{state?.message}</p>
                         </div>
                         <div className="w-full text-center">
-                            <button type="submit" className="w-5/6 my-8 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Register</button>
+                            <button type="submit" className="w-5/6 my-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Register</button>
                         </div>
                     </form>
                 </div>
