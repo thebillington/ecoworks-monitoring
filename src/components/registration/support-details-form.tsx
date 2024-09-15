@@ -1,7 +1,7 @@
 'use client'
 
 import { useContext } from "react"
-import { RegistrationFormContext } from "@/app/register/layout"
+import { RegistrationFormContext } from "@/contexts"
 import { useRouter } from "next/navigation"
 
 export default function SupportDetailsFormComponent() {
