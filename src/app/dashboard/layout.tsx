@@ -1,6 +1,6 @@
 import ToolbarComponent from "@/components/toolbar"
 import { getServerSession } from "next-auth"
-import { authOptions } from "../auth"
+import { authOptions } from "../../auth"
 
 export default async function RootLayout({
   children,
