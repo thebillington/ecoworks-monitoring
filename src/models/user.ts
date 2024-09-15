@@ -126,8 +126,8 @@ Support Worker Name: ${this.support_name}
 Support Worker Organisation: ${this.support_organisation}
 Support Worker Email: ${this.support_email}
 Support Worker Phone: ${this.support_phone}\n
-Medical Info:${ this.medical_info ?? '' }\n
-Additional Info:${ this.additional_info ?? '' }\n
+Medical Info: ${ this.medical_info ?? '' }\n
+Additional Info: ${ this.additional_info ?? '' }\n
 Employment Details: ${this.employment_details}
 Cultural Background: ${this.cultural_background}`
     }

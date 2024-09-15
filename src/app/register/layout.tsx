@@ -1,8 +1,8 @@
 'use client'
 
-import { RegistrationFormContext } from '@/contexts'
 import User from '@/models/user'
 import { useState } from 'react'
+import { RegistrationFormContext } from "@/contexts"
 
 export default function RootLayout({
     children,
