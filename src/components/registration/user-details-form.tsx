@@ -3,7 +3,7 @@
 import { checkIfEmailRegistered, IFormResponse } from "@/app/api/gsheets/integration"
 import { useFormState } from "react-dom"
 import { useContext } from "react"
-import { RegistrationFormContext } from "@/app/register/layout"
+import { RegistrationFormContext } from '@/contexts'
 import { useRouter } from "next/navigation"
 
 const initialState: IFormResponse = {
