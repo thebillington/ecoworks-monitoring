@@ -236,6 +236,7 @@ export async function getUsersForProject(projectSlug: string): Promise<Array<Use
   let users: Array<User> = []
 
   for (let attendeeEmail of previousAttendeeEmails) {
+    if (! (attendeeEmail in allUsers)) continue
     users.push(allUsers[attendeeEmail])
     delete allUsers[attendeeEmail]
   }

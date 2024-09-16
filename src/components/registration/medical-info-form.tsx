@@ -15,8 +15,6 @@ export default function MedicalInfoFormComponent() {
         user.medical_info = formData.get('medical-info') as string
         user.additional_info = formData.get('additional-info') as string
 
-        console.log(user)
-
         router.push('/register/equal-opportunities')
     }
 

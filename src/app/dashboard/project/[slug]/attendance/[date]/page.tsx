@@ -3,7 +3,7 @@ import { getUsersForProject } from "@/app/api/gsheets/integration"
 import { unslug } from "@/utilities"
 import TakeAttendanceComponent from "@/components/dashboard/project/attendance/take-attendance"
 
-export default async function ProjectInformationPage( { params } : { params: { slug: string, date: string } } ) {
+export default async function TakeAttendancePage( { params } : { params: { slug: string, date: string } } ) {
     const users = await getUsersForProject(params.slug)
     const date = decodeURIComponent(params.date)
     return (
