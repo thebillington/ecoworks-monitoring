@@ -28,3 +28,11 @@ export function britishDateStringToCalendarPickerFormat(date: string): string {
 export function todaysDateString() {
     return dateAsLocale(new Date())
 }
+
+export function debounce(fn: any, delay: number) {
+    let timeoutId: NodeJS.Timeout
+    return (...args: any) => {
+        clearTimeout(timeoutId)
+        timeoutId = setTimeout(() => fn(...args), delay)
+    }
+}
