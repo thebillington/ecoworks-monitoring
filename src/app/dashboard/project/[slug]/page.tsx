@@ -1,7 +1,7 @@
 import { attendanceSheetExistsFor, getAttendanceSheet } from "@/app/api/gsheets/integration";
 import { todaysDateString, unslug } from "@/utilities";
-import AttendanceSheetComponent from "@/components/dashboard/attendance-sheet";
-import NoAttendanceSheetComponent from "@/components/dashboard/no-attendance-sheet";
+import AttendanceSheetComponent from "@/components/dashboard/project/attendance-sheet";
+import NoAttendanceSheetComponent from "@/components/dashboard/project/no-attendance-sheet";
 
 export default async function ProjectInformationPage( { params } : { params: { slug: string } } ) {
     const date = todaysDateString()

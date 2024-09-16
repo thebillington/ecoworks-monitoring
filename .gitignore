@@ -37,3 +37,10 @@ next-env.d.ts
 
 # google credentials
 credentials.json
+
+# sst
+.sst
+
+
+# open-next
+.open-next
