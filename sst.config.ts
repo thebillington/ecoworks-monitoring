@@ -3,7 +3,7 @@
 export default $config({
   app(input) {
     return {
-      name: "ecoworks-monitoring",
+      name: "ecoworks-monitoring-system",
       home: "aws",
       removal: "remove",
       providers: {
@@ -15,6 +15,6 @@ export default $config({
     };
   },
   async run() {
-    new sst.aws.Nextjs("EcoworksMonitoring");
+    new sst.aws.Nextjs("EcoworksMonitoringSystem");
   },
 });

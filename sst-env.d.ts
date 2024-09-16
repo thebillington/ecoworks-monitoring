@@ -5,5 +5,9 @@ import "sst"
 export {}
 declare module "sst" {
   export interface Resource {
+    "EcoworksMonitoringSystem": {
+      "type": "sst.aws.Nextjs"
+      "url": string
+    }
   }
 }
