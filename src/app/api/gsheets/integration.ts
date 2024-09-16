@@ -6,6 +6,8 @@ import { todaysDateString } from "@/utilities"
 import { google } from "googleapis"
 import { redirect } from "next/navigation"
 
+const spreadsheetId = process.env.DATABASE_SPREADSHEET_ID
+
 async function getGoogleAuthClient() {
   return await google.auth.getClient({
     projectId: process.env.GSHEETS_PROJECT_ID,
@@ -27,7 +29,7 @@ export async function getProjects(): Promise<Array<string>> {
   const sheets = google.sheets({ version: "v4", auth })
 
   const response = await sheets.spreadsheets.get({
-    spreadsheetId: process.env.USERS_SPREADSHEET_ID
+    spreadsheetId: spreadsheetId
   })
 
   const projects: Array<string> = []
@@ -47,7 +49,7 @@ export async function attendanceSheetExistsFor(projectSlug: string, date: string
   const sheets = google.sheets({ version: "v4", auth })
 
   const response = await sheets.spreadsheets.values.get({
-    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    spreadsheetId: spreadsheetId,
     range: `project_${projectSlug}`,
   })
 
@@ -65,7 +67,7 @@ export async function getAttendanceSheet(projectSlug: string, date: string): Pro
   const sheets = google.sheets({ version: "v4", auth })
 
   const response = await sheets.spreadsheets.values.get({
-    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    spreadsheetId: spreadsheetId,
     range: `project_${projectSlug}`,
   })
 
@@ -114,7 +116,7 @@ export async function submitAttendanceSheet(
   const sheets = google.sheets({ version: "v4", auth })
 
   await sheets.spreadsheets.values.append({
-    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    spreadsheetId: spreadsheetId,
     valueInputOption: 'USER_ENTERED',
     insertDataOption: 'INSERT_ROWS',
     range: `project_${projectSlug}`,
@@ -187,7 +189,7 @@ async function getUsers(): Promise<Record<string, User>> {
   const sheets = google.sheets({ version: "v4", auth })
 
   const response = await sheets.spreadsheets.values.get({
-    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    spreadsheetId: spreadsheetId,
     range: 'users',
   })
 
@@ -254,7 +256,7 @@ export async function getUsersFromAttendanceSheet(
   const sheets = google.sheets({ version: "v4", auth })
 
   const response = await sheets.spreadsheets.values.get({
-    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    spreadsheetId: spreadsheetId,
     range: 'users',
   })
 
@@ -279,7 +281,7 @@ async function getPreviousAttendeeEmails(projectSlug: string): Promise<Array<str
   const sheets = google.sheets({ version: "v4", auth })
 
   const response = await sheets.spreadsheets.values.get({
-    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    spreadsheetId: spreadsheetId,
     range: `project_${projectSlug}`,
   })
 
@@ -343,7 +345,7 @@ export async function createUser(
   const sheets = google.sheets({ version: "v4", auth })
 
   await sheets.spreadsheets.values.append({
-    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    spreadsheetId: spreadsheetId,
     valueInputOption: 'USER_ENTERED',
     insertDataOption: 'INSERT_ROWS',
     range: 'users',
@@ -396,7 +398,7 @@ export async function createProspective(
   const date = todaysDateString()
 
   await sheets.spreadsheets.values.append({
-    spreadsheetId: process.env.USERS_SPREADSHEET_ID,
+    spreadsheetId: spreadsheetId,
     valueInputOption: 'USER_ENTERED',
     insertDataOption: 'INSERT_ROWS',
     range: 'prospects',
