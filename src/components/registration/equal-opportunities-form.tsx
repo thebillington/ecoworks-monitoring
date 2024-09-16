@@ -31,12 +31,14 @@ export default function EqualOpportunitiesFormComponent() {
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Economic activity (optional)</label>
                     <select defaultValue={ user.employment_details ?? '' } name="employment-details" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value='Prefer not to say'>Prefer not to say</option>
-                        <option value='Employed'>Employed (full or part time)</option>
+                        <option value='Full-time employed'>Full-time employed</option>
+                        <option value='Part-time employed'>Part-time employed</option>
+                        <option value='Self-employed'>Self-employed</option>
                         <option value='Unemployed'>Unemployed</option>
                         <option value='Retired'>Retired</option>
                         <option value='Other economically inactive'>Other economically inactive</option>
                         <option value='Looking after home/family'>Looking after home/family</option>
-                        <option value='A student'>A student</option>
+                        <option value='Student'>Student</option>
                     </select>
                 </div>
                 <div>
