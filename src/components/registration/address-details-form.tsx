@@ -15,7 +15,7 @@ export default function AddressDetailsFormComponent() {
         user.addr = formData.get('addr') as string
         user.postcode = formData.get('postcode') as string
         user.phone = formData.get('phone') as string
-        user.dob = formData.get('dob')
+        user.dob = formData.get('dob') as string
 
         router.push('/register/emergency-details')
     }
