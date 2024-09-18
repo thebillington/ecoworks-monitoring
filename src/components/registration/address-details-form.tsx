@@ -3,7 +3,6 @@
 import { useContext } from "react"
 import { RegistrationFormContext } from "@/contexts"
 import { useRouter } from "next/navigation"
-import { britishDateStringToCalendarPickerFormat, calendarPickerFormatToBritishDateString } from "@/utilities"
 
 export default function AddressDetailsFormComponent() {
 
@@ -16,7 +15,7 @@ export default function AddressDetailsFormComponent() {
         user.addr = formData.get('addr') as string
         user.postcode = formData.get('postcode') as string
         user.phone = formData.get('phone') as string
-        user.dob = calendarPickerFormatToBritishDateString(formData.get('dob') as string)
+        user.dob = formData.get('dob')
 
         router.push('/register/emergency-details')
     }
@@ -51,7 +50,7 @@ export default function AddressDetailsFormComponent() {
                 </div>
                 <div>
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Date of Birth *</label>
-                    <input type="date" defaultValue={ britishDateStringToCalendarPickerFormat(user.dob ?? '') } name="dob" className="dark:[color-scheme:dark] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                    <input type="date" defaultValue={ user.dob ?? '' } name="dob" className="dark:[color-scheme:dark] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                 </div>
                 <div className="w-full text-center">
                     <button type="button" onClick={() => router.back()} className="w-[48%] my-4 text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Previous</button>
