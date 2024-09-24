@@ -89,6 +89,22 @@ export async function getChecklistsForDate(date: string): Promise<Array<Checklis
   return checklist
 }
 
+export async function getQuestionsForChecklist(checklistSlug: string): Promise<Array<string>> {
+  const auth = await getGoogleAuthClient()
+
+  const sheets = google.sheets({ version: "v4", auth })
+
+  const response = await sheets.spreadsheets.values.get({
+    spreadsheetId: spreadsheetId,
+    range: `checklist_${checklistSlug}`,
+  })
+
+  const questions = response.data.values?.splice(0,1)[0]
+  questions?.splice(0,1)
+  
+  return questions ?? []
+}
+
 export async function attendanceSheetExistsFor(projectSlug: string, date: string): Promise<boolean> {
   const auth = await getGoogleAuthClient()
 
