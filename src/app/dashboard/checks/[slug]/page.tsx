@@ -11,7 +11,7 @@ export default async function TakeAttendancePage( { params } : { params: { slug:
             </div>
             <div className="flex flex-1 justify-center">
                 <div className="w-5/6 max-w-sm md:max-w-lg lg:max-w-2xl">
-                    <DailyChecksCompletionComponent questions={ questions } />
+                    <DailyChecksCompletionComponent questions={ questions } checklistSlug={ params.slug } />
                 </div>
             </div>
         </div>

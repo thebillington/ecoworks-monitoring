@@ -105,6 +105,38 @@ export async function getQuestionsForChecklist(checklistSlug: string): Promise<A
   return questions ?? []
 }
 
+export async function submitChecklistForDate(
+  checklistSlug: string,
+  date: string,
+  numQuestions: number
+): Promise<IFormResponse> {
+  const auth = await getGoogleAuthClient()
+
+  const sheets = google.sheets({ version: "v4", auth })
+
+  const response = await sheets.spreadsheets.values.get({
+    spreadsheetId: spreadsheetId,
+    range: `checklist_${checklistSlug}`,
+  })
+
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: spreadsheetId,
+    valueInputOption: 'USER_ENTERED',
+    insertDataOption: 'INSERT_ROWS',
+    range: `checklist_${checklistSlug}`,
+    requestBody: {
+      values: [
+        [
+          date,
+          ...Array<boolean>(numQuestions).fill(true)
+        ]
+      ]
+    }
+  })
+  
+  redirect('/dashboard')
+}
+
 export async function attendanceSheetExistsFor(projectSlug: string, date: string): Promise<boolean> {
   const auth = await getGoogleAuthClient()
 

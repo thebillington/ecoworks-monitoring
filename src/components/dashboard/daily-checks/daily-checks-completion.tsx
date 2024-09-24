@@ -1,8 +1,11 @@
 'use client'
 
+import { submitChecklistForDate } from "@/app/api/gsheets/integration"
+import { todaysDateString } from "@/utilities"
 import { useState } from "react"
 
 interface DailyChecksComponentProps {
+    checklistSlug: string
     questions: Array<string>
 }
 
@@ -30,14 +33,13 @@ export default function DailyChecksCompletionComponent(
         if (!toggles.every(t => t === true)) return setError('You must check all items!')
         else setError(undefined)
         
-        // const response = await submitAttendanceSheet(
-        //     props.date,
-        //     props.projectSlug,
-        //     attendees,
-        //     comments
-        // )
+        const response = await submitChecklistForDate(
+            props.checklistSlug,
+            todaysDateString(),
+            props.questions.length
+        )
 
-        // if (response && response.message != 'success') setError(response.message)
+        if (response && response.message != 'success') setError(response.message)
     }
 
     return (
