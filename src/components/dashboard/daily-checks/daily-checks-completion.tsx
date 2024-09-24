@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from "react"
-import DailyChecksCompletionCheckboxComponent from "./daily-checks-checkbox-component"
 
 interface DailyChecksComponentProps {
     questions: Array<string>

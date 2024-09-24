@@ -27,7 +27,10 @@ export function DailyChecksComponent(
                             props.checks.map( ( check, i ) => 
                                 <tr key={ check.checkName } className={`bg-white ${i != props.checks.length - 1 ? 'border-b ' : ' '} dark:bg-gray-800 dark:border-gray-700`}>
                                     <td className="flex font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <a className="w-full px-6 py-4" href={ `dashboard/checks/${check.checkName}` }>{ `${unslug(check.checkName)} Checks` }</a>
+                                        { check.isComplete
+                                            ? <p className="w-full px-6 py-4">{ `${unslug(check.checkName)} Checks` }</p>
+                                            : <a className="w-full px-6 py-4" href={ `dashboard/checks/${check.checkName}` }>{ `${unslug(check.checkName)} Checks` }</a>
+                                        }
                                     </td>
                                     <td className="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <DailyChecksTickboxComponent isComplete={ check.isComplete } />
