@@ -43,6 +43,52 @@ export async function getProjects(): Promise<Array<string>> {
   return projects
 }
 
+export interface ChecklistResponse {
+  checkName: string
+  isComplete: boolean
+}
+
+export async function getChecklistsForDate(date: string): Promise<Array<ChecklistResponse>> {
+  const auth = await getGoogleAuthClient()
+
+  const sheets = google.sheets({ version: "v4", auth })
+
+  const response = await sheets.spreadsheets.get({
+    spreadsheetId: spreadsheetId
+  })
+
+  const checklistNames: Array<string> = []
+  const workbooks = response.data['sheets']?.map(sheet => sheet.properties?.title ?? undefined) ?? []
+  for (let workbookName of workbooks) {
+    if (workbookName?.indexOf('checklist') != -1) checklistNames.push(
+      workbookName?.replace('checklist_', '') ?? ''
+    )
+  }
+
+  const checklist: Array<ChecklistResponse> = []
+  for (let checklistName of checklistNames) {
+    const response = await sheets.spreadsheets.values.get({
+      spreadsheetId: spreadsheetId,
+      range: `checklist_${checklistName}`,
+    })
+  
+    let isComplete = false
+    const columnHeadings = response.data.values?.splice(0,1)[0]
+    for (let row of response.data.values ?? []) {
+      isComplete = row[columnHeadings?.indexOf('date') ?? 0] == date
+    }
+
+    checklist.push(
+      {
+        checkName: checklistName,
+        isComplete: isComplete
+      }
+    )
+  }
+  
+  return checklist
+}
+
 export async function attendanceSheetExistsFor(projectSlug: string, date: string): Promise<boolean> {
   const auth = await getGoogleAuthClient()
 
