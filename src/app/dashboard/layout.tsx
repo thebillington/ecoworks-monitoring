@@ -10,7 +10,7 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions)
   return (
     <div className="flex h-screen flex-col overflow-hidden">
-      <div className="flex bg-gray-500 px-2 py-2 items-center">
+      <div className="flex bg-[#51982a] px-2 py-2 items-center">
         <ToolbarComponent name={session?.user?.name ?? '{name}'} />
       </div>
       <div className="flex-1">
