@@ -50,7 +50,7 @@ export default function DeclarationFormComponent() {
                                 </svg>
                             </span>
                         </label>
-                        <p className="ms-2 text-xs">I have read the <a className="text-blue-600 dark:text-blue-500 hover:underline" href='/documents/health-and-safety.pdf'>health and safety</a> guidelines and agree to abide by these when on site</p>
+                        <p className="ms-2 text-xs">I have read the <a className="text-blue-600 dark:text-blue-500 hover:underline" href='/documents/health-and-safety-agreement.pdf'>health and safety</a> guidelines and agree to abide by these when on site</p>
                     </div>
                 </div>
                 <div className="w-full text-center">
