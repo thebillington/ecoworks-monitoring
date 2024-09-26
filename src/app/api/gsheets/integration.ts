@@ -385,8 +385,10 @@ async function getPreviousAttendeeEmails(projectSlug: string): Promise<Array<str
 
   const columnHeadings = response.data.values.splice(0,1)[0]
   const finalEntry = response.data.values[response.data.values.length - 1]
-  for (let i = columnHeadings.indexOf('attendees'); i < finalEntry.length; i++) {
-    attendees.push(finalEntry[i])
+  if (finalEntry) {
+    for (let i = columnHeadings.indexOf('attendees'); i < finalEntry.length; i++) {
+      attendees.push(finalEntry[i])
+    }
   }
 
   return attendees
