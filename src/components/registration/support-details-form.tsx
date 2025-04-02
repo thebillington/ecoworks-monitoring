@@ -23,23 +23,23 @@ export default function SupportDetailsFormComponent() {
     return (
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Support worker details
+                Support worker details (if applicable)
             </h1>
             <form className="space-y-4 md:space-y-6" action={ submitSupportDetailsForm }>
                 <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name (optional)</label>
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                     <input defaultValue={ user.support_name ?? '' } name="support-name" id="support-name" placeholder="John Doe" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
                 <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Organisation (optional)</label>
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Organisation</label>
                     <input defaultValue={ user.support_organisation ?? '' } name="support-organisation" id="support-organisation" placeholder="Improving Lives Notts" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
                 <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email (optional)</label>
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                     <input defaultValue={ user.support_email ?? '' } type="email" name="support-email" id="support-email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@example.com" />
                 </div>
                 <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telephone number (optional)</label>
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telephone number</label>
                     <input defaultValue={ user.support_phone ?? '' } type="tel" name="support-phone" id="support-phone" placeholder="07712345678" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
                 <div className="w-full text-center">

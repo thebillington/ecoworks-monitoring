@@ -12,11 +12,11 @@ export default async function AttendanceSheetComponent(
     return (
         <>
             <span className="ml-2">Comments</span>
-            <div className="flex flex-col h-[15%] relative overflow-x-auto overflow-y-auto no-scrollbar mb-4 rounded-md">
+            <div className="flex flex-col h-[10%] relative overflow-x-auto overflow-y-auto no-scrollbar mb-4 rounded-md">
                 <textarea disabled value={ props.attendanceSheet.comments } className="flex-1 resize-none no-scrollbar block w-full mt-1 py-2 px-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter any additional comments..." />
             </div>
             <span className="ml-2">Attendees</span>
-            <div className="max-h-[55%] relative overflow-y-auto no-scrollbar my-2 rounded-md">
+            <div className="max-h-56 relative overflow-y-auto no-scrollbar my-2 rounded-md">
                 <table className="h-full w-full text-sm text-left rounded-md rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr key="headings">

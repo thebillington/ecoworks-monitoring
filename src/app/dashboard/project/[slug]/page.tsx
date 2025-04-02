@@ -8,7 +8,7 @@ export default async function ProjectInformationPage( { params } : { params: { s
     if (await attendanceSheetExistsFor(params.slug, date)) {
         const attendanceSheet = await getAttendanceSheet(params.slug, date)
         return (
-            <div className="flex h-screen flex-col">
+            <div className="flex h-screen flex-col overflow-y-auto">
                 <div className="flex flex-col self-center w-5/6 mt-8 mb-4 max-w-4xl ml-4">
                     <p className="text-2xl">{ unslug(params.slug) }</p>
                     <p>Attendance Sheet - { date }</p>

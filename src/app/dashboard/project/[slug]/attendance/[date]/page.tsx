@@ -7,7 +7,7 @@ export default async function TakeAttendancePage( { params } : { params: { slug:
     const users = await getUsersForProject(params.slug)
     const date = decodeURIComponent(params.date)
     return (
-        <div className="flex h-screen flex-col">
+        <div className="flex h-screen flex-col overflow-y-auto">
             <div className="flex flex-col self-center w-5/6 mt-8 mb-4 max-w-sm ml-4">
                 <p className="text-2xl">{ unslug(params.slug) }</p>
                 <p>Attendance Sheet - { date }</p>

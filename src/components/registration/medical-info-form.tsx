@@ -25,12 +25,12 @@ export default function MedicalInfoFormComponent() {
             </h1>
             <form className="space-y-4 md:space-y-6" action={ submitMedicalInfoForm }>
                 <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Medical information (optional)</label>
-                    <textarea defaultValue={ user.medical_info ?? '' } name="medical-info" id="medical-info" placeholder="Enter any important medical information here..." className="resize-none no-scrollbar h-28 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Medical information (if applicable)</label>
+                    <textarea defaultValue={ user.medical_info ?? '' } name="medical-info" id="medical-info" placeholder="Please let us know about any allergies, visual/hearing impairments, diabetes, epilepsy, asthma, etc..." className="resize-none no-scrollbar h-28 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
                 <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Additional information (optional)</label>
-                    <textarea defaultValue={ user.additional_info ?? '' } name="additional-info" id="additional-info" placeholder="Enter any other important information here..." className="resize-none no-scrollbar h-28 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Additional information (if applicable)</label>
+                    <textarea defaultValue={ user.additional_info ?? '' } name="additional-info" id="additional-info" placeholder="Is there any additional information we may need to know to ensure your safety e.g any medication a first aider should be aware of?" className="resize-none no-scrollbar h-28 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
                 <div className="w-full text-center">
                     <button type="button" onClick={() => router.back()} className="w-[48%] my-4 text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Previous</button>
